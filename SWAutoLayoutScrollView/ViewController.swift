@@ -44,9 +44,7 @@ class ViewController: UIViewController {
 		
 		prevRef = ""
 		
-		var i = 1
-		
-		while (i < n + 1) {
+		for i in 1...n {
 
 			// load an instance of our SampleView
 			v = UINib(nibName: "SampleView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
@@ -118,8 +116,6 @@ class ViewController: UIViewController {
 			// assign the "current SampleView" reference to the "previous" reference
 			prevRef = currRef
 
-			i = i + 1
-			
 		}
 		
 		// add a "closing" Horizontal constraint, to pin the right edge of the last view to the right-edge of the ScrollView - sort of...
