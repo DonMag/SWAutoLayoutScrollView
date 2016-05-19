@@ -31,9 +31,6 @@ class ViewController: UIViewController {
 		var currRef: String
 		var vFmt: String
 		var hFmt: String
-		
-		var v: UIView
-		var lbl: UILabel
 
 		var dViews = [String:AnyObject]()
 		
@@ -46,12 +43,13 @@ class ViewController: UIViewController {
 		
 		for i in 1...n {
 
-			// load an instance of our SampleView
-			v = UINib(nibName: "SampleView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
+			// load an instance of our SampleView... would have proper error handling in real-world-usage
+			guard let v = UINib(nibName: "SampleView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as? UIView else { return }
+			
 			v.translatesAutoresizingMaskIntoConstraints = false
 			
-			// the UILabel in our SampleView was assigned a Tag of 99 in IB
-			lbl = v.viewWithTag(99) as! UILabel
+			// the UILabel in our SampleView was assigned a Tag of 99 in IB... would have proper error handling in real-world-usage
+			guard let lbl = v.viewWithTag(99) as? UILabel else { return }
 			lbl.text = "\(i)"
 			
 			// add this view to the ScrollView
@@ -86,7 +84,7 @@ class ViewController: UIViewController {
 				
 				// Center vertically in scroll view
 				
-				// first, set the height constraint of out SampleView
+				// first, set the height constraint of our SampleView
 				vFmt = "V:[\(currRef)(height)]";
 				self.theScrollView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(vFmt, options: [], metrics: dMetrics, views: dViews))
 
