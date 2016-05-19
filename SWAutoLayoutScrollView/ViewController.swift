@@ -16,7 +16,7 @@ class ViewController: UIViewController {
 		super.viewDidLoad()
 		// Do any additional setup after loading the view, typically from a nib.
 		
-		self.addMyViews(8, vWidth: 140, vHeight: 180, vSpacing: 10, bCentered: true)
+		self.addMyViews(8, vWidth: 200, vHeight: 200, vSpacing: 10, bCentered: true)
 	}
 
 	override func didReceiveMemoryWarning() {
@@ -47,24 +47,40 @@ class ViewController: UIViewController {
 		var i = 1
 		
 		while (i < n + 1) {
-			
-			currRef = "mv\(i)"
-			
+
+			// load an instance of our SampleView
 			v = UINib(nibName: "SampleView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
 			v.translatesAutoresizingMaskIntoConstraints = false
+			
+			// the UILabel in our SampleView was assigned a Tag of 99 in IB
 			lbl = v.viewWithTag(99) as! UILabel
 			lbl.text = "\(i)"
 			
+			// add this view to the ScrollView
 			self.theScrollView.addSubview(v)
 			
+			// create a string "named" reference to the current view
+			currRef = "mv\(i)"
+			
+			// add this view to our Views dictionary
 			dViews[currRef] = v
 			
 			if (prevRef == "") {
+
+				// if this is the first view, add an "Opening" Horizontal constraint by pinning it to the left
 				hFmt = "H:|[\(currRef)(width)]"
+
+				// use this format if you want left / leading padding
+				// hFmt = "H:|-\(vSpacing)-[\(currRef)(width)]"
+				
 			} else {
+				
+				// this is not the first view, so we pin it to the previous view, with spacing
 				hFmt = "H:[\(prevRef)]-\(vSpacing)-[\(currRef)(width)]"
+				
 			}
 			
+			// add the Horizontal constraints
 			self.theScrollView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(hFmt, options: [], metrics: dMetrics, views: dViews))
 
 			
@@ -72,34 +88,47 @@ class ViewController: UIViewController {
 				
 				// Center vertically in scroll view
 				
+				// first, set the height constraint of out SampleView
 				vFmt = "V:[\(currRef)(height)]";
 				self.theScrollView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(vFmt, options: [], metrics: dMetrics, views: dViews))
 
-				let constraints = NSLayoutConstraint.constraintsWithVisualFormat(
-					"H:[scrollview]-(<=1)-[sampleview]",
-					options: NSLayoutFormatOptions.AlignAllCenterY,
-					metrics: nil,
-					views: ["scrollview":self.theScrollView, "sampleview":v])
+				// now set the CenterY of out SampleView equal to the CenterY of the ScrollView
+				let c = NSLayoutConstraint(
+					item: v,
+					attribute: NSLayoutAttribute.CenterY,
+					relatedBy: NSLayoutRelation.Equal,
+					toItem: self.theScrollView,
+					attribute: NSLayoutAttribute.CenterY,
+					multiplier: 1,
+					constant: 0)
+
+				self.theScrollView.addConstraint(c)
 				
-				view.addConstraints(constraints)
 				
 			} else {
 				
 				// aligned to top of scroll view
 				
-				vFmt = "V:|[\(currRef)(height)]|"
-				
+				// also sets the height constraint
+				vFmt = "V:[\(currRef)(height)]"
 				self.theScrollView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(vFmt, options: [], metrics: dMetrics, views: dViews))
 				
 			}
 
+			// assign the "current SampleView" reference to the "previous" reference
 			prevRef = currRef
 
 			i = i + 1
 			
 		}
 		
+		// add a "closing" Horizontal constraint, to pin the right edge of the last view to the right-edge of the ScrollView - sort of...
+		// because the First added view is pinned to the left, and the Last added view is pinned to the right, the contentSize is "auto-magically" handled
 		hFmt = "H:[\(prevRef)]|"
+		
+		// use this format if you want right / trailing padding
+		// hFmt = "H:[\(prevRef)]-\(vSpacing)-|"
+
 		self.theScrollView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(hFmt, options: [], metrics: dMetrics, views: dViews))
 		
 	}
