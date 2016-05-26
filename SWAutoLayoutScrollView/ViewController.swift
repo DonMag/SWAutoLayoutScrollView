@@ -8,15 +8,76 @@
 
 import UIKit
 
+extension MutableCollectionType where Self.Index == Int {
+	func shuffle() -> Self {
+		var r = self
+		let c = self.count
+		for i in 0..<(c - 1) {
+			let j = Int(arc4random_uniform(UInt32(c - i))) + i
+			if i != j {
+				swap(&r[i], &r[j])
+			}
+		}
+		return r
+	}
+}
+
 class ViewController: UIViewController {
 
 	@IBOutlet weak var theScrollView: UIScrollView!
+	@IBOutlet weak var pScrollView: UIScrollView!
+	@IBOutlet weak var theLabel: UILabel!
+	
+	var imgURLs = ["a", "b", "c", "d", "e", "f"]
+	
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		// Do any additional setup after loading the view, typically from a nib.
+
+	
 		
-		self.addMyViews(8, vWidth: 200, vHeight: 200, vSpacing: 10, bCentered: true)
+		var vcnt = self.theScrollView.subviews.count
+		
+		print("pre  subviews [\(vcnt)]")
+		
+		theScrollView.removeFromSuperview()
+		theLabel.removeFromSuperview()
+		
+		theScrollView.translatesAutoresizingMaskIntoConstraints = false
+		theLabel.translatesAutoresizingMaskIntoConstraints = false
+		
+		pScrollView.addSubview(theScrollView)
+		pScrollView.addSubview(theLabel)
+		
+		var d = [String:AnyObject]()
+		d["theScrollView"] = theScrollView
+		d["theLabel"] = theLabel
+		d["sv"] = pScrollView
+		
+		
+		var hFmt = "H:|[theScrollView(==sv)]|"
+		
+		pScrollView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(hFmt, options: [], metrics: nil, views: d))
+
+		hFmt = "V:|[theScrollView(250)]-700-[theLabel]|"
+
+		pScrollView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(hFmt, options: [], metrics: nil, views: d))
+
+		hFmt = "H:|-40-[theLabel]"
+		
+		pScrollView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(hFmt, options: [], metrics: nil, views: d))
+
+		
+//		self.addMyViews(8, vWidth: 200, vHeight: 200, vSpacing: 10, bCentered: true)
+		
+		self.setOfferImages(imgURLs)
+
+		
+		vcnt = self.theScrollView.subviews.count
+		
+		print("post subviews [\(vcnt)]")
+		
 	}
 
 	override func didReceiveMemoryWarning() {
@@ -24,6 +85,11 @@ class ViewController: UIViewController {
 		// Dispose of any resources that can be recreated.
 	}
 
+	@IBAction func testTap(sender: AnyObject) {
+		var x = 1
+		x = 2
+		
+	}
 
 	func addMyViews(n: Int, vWidth: Int, vHeight: Int, vSpacing: Int, bCentered: Bool) {
 		
@@ -125,6 +191,58 @@ class ViewController: UIViewController {
 
 		self.theScrollView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(hFmt, options: [], metrics: dMetrics, views: dViews))
 		
+	}
+	
+	
+	func setOfferImages(imageURLs: [String]?) {
+		let imageURLs = imageURLs ?? []
+		
+		let offerImageScrollView = theScrollView
+		
+		let bundlePath = NSBundle.mainBundle().pathForResource("swift1", ofType: "png")
+		let swImage = UIImage(contentsOfFile: bundlePath!)
+		
+		var views = [String:AnyObject]()
+
+		for (i, imgURL) in imageURLs.enumerate() {
+			let imgView = UIImageView()
+			imgView.backgroundColor = UIColor.redColor()
+			imgView.translatesAutoresizingMaskIntoConstraints = false
+			imgView.contentMode = UIViewContentMode.ScaleAspectFit
+			
+//			if let imgURL = NSURL(string: imgURL) {
+//				imgView.setImageWithURL(imgURL, placeholder: UIUtils.DEFAULT_IMAGE)
+//			} else {
+//				imgView.image = UIUtils.DEFAULT_IMAGE
+//			}
+			
+			imgView.image = swImage
+			
+			offerImageScrollView.addSubview(imgView)
+
+			views["view\(i)"] = imgView
+		}
+		
+		//MARK: Layout imageViews
+
+		var imageViewConstraints = [NSLayoutConstraint]()
+		var vflString = ""
+
+		vflString += "H:|[view0]"
+		for i in 1..<views.count {
+			vflString += "[view\(i)(==view0)]"
+		}
+		vflString += "|"
+		
+		let horizontalConstraint = NSLayoutConstraint.constraintsWithVisualFormat(vflString, options: [.AlignAllTop, .AlignAllBottom], metrics: nil, views: views)
+		let verticalConstraint = NSLayoutConstraint.constraintsWithVisualFormat("V:|[view0]|", options: [], metrics: nil, views: views)
+		imageViewConstraints += horizontalConstraint + verticalConstraint
+		NSLayoutConstraint.activateConstraints(imageViewConstraints)
+		
+		if let view0 = views.first?.1 {
+			NSLayoutConstraint(item: view0, attribute: .Width, relatedBy: .Equal, toItem: offerImageScrollView, attribute: .Width, multiplier: 1, constant: 0).active = true
+			NSLayoutConstraint(item: view0, attribute: .Height, relatedBy: .Equal, toItem: offerImageScrollView, attribute: .Height, multiplier: 1, constant: 0).active = true
+		}
 	}
 	
 }

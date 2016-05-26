@@ -13,6 +13,9 @@
 		7C8983CC1CED0C580008CE77 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C8983CB1CED0C580008CE77 /* Assets.xcassets */; };
 		7C8983CF1CED0C580008CE77 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C8983CD1CED0C580008CE77 /* LaunchScreen.storyboard */; };
 		7C8983D71CEDE80A0008CE77 /* SampleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C8983D61CEDE80A0008CE77 /* SampleView.xib */; };
+		7C8FBBE91CF4F4CD00E59EDB /* swift1.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C8FBBE81CF4F4CD00E59EDB /* swift1.png */; };
+		7C8FBC111CF784FD00E59EDB /* Second.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C8FBC101CF784FD00E59EDB /* Second.storyboard */; };
+		7C8FBC131CF7852700E59EDB /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8FBC121CF7852700E59EDB /* SecondViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +27,9 @@
 		7C8983CE1CED0C580008CE77 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7C8983D01CED0C580008CE77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7C8983D61CEDE80A0008CE77 /* SampleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SampleView.xib; sourceTree = "<group>"; };
+		7C8FBBE81CF4F4CD00E59EDB /* swift1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = swift1.png; sourceTree = "<group>"; };
+		7C8FBC101CF784FD00E59EDB /* Second.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Second.storyboard; sourceTree = "<group>"; };
+		7C8FBC121CF7852700E59EDB /* SecondViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +62,7 @@
 		7C8983C31CED0C580008CE77 /* SWAutoLayoutScrollView */ = {
 			isa = PBXGroup;
 			children = (
+				7C8FBBE81CF4F4CD00E59EDB /* swift1.png */,
 				7C8983C41CED0C580008CE77 /* AppDelegate.swift */,
 				7C8983C61CED0C580008CE77 /* ViewController.swift */,
 				7C8983C81CED0C580008CE77 /* Main.storyboard */,
@@ -63,6 +70,8 @@
 				7C8983CD1CED0C580008CE77 /* LaunchScreen.storyboard */,
 				7C8983D01CED0C580008CE77 /* Info.plist */,
 				7C8983D61CEDE80A0008CE77 /* SampleView.xib */,
+				7C8FBC101CF784FD00E59EDB /* Second.storyboard */,
+				7C8FBC121CF7852700E59EDB /* SecondViewController.swift */,
 			);
 			path = SWAutoLayoutScrollView;
 			sourceTree = "<group>";
@@ -125,6 +134,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C8FBC111CF784FD00E59EDB /* Second.storyboard in Resources */,
+				7C8FBBE91CF4F4CD00E59EDB /* swift1.png in Resources */,
 				7C8983D71CEDE80A0008CE77 /* SampleView.xib in Resources */,
 				7C8983CF1CED0C580008CE77 /* LaunchScreen.storyboard in Resources */,
 				7C8983CC1CED0C580008CE77 /* Assets.xcassets in Resources */,
@@ -139,6 +150,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C8FBC131CF7852700E59EDB /* SecondViewController.swift in Sources */,
 				7C8983C71CED0C580008CE77 /* ViewController.swift in Sources */,
 				7C8983C51CED0C580008CE77 /* AppDelegate.swift in Sources */,
 			);
@@ -202,7 +214,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -241,7 +253,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -290,6 +302,7 @@
 				7C8983D51CED0C580008CE77 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
