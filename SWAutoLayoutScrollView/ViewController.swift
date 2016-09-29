@@ -64,7 +64,7 @@ class ViewController: UIViewController {
 
 		
 		// add simple subviews
-		self.addMyViews(8, vWidth: 200, vHeight: 200, vSpacing: 10, bCentered: true)
+		self.addMyViews(8, vWidth: 200, vHeight: 200, vSpacing: 16, bCentered: true)
 		
 		// or, add images as subviews
 //		self.setOfferImages(imgURLs)
@@ -108,7 +108,7 @@ class ViewController: UIViewController {
 				                                    toItem: self.theScrollView,
 				                                    attribute: .Leading,
 				                                    multiplier: 1.0,
-				                                    constant: 12.0)
+				                                    constant: CGFloat(vSpacing))
 				
 			} else {
 				
@@ -118,7 +118,7 @@ class ViewController: UIViewController {
 				                                    toItem: prevView,
 				                                    attribute: .Trailing,
 				                                    multiplier: 1.0,
-				                                    constant: 12.0)
+				                                    constant: CGFloat(vSpacing))
 				
 			}
 			
@@ -175,13 +175,15 @@ class ViewController: UIViewController {
 		// add a "closing" Horizontal constraint, to pin the right edge of the last view to the right-edge of the ScrollView - sort of...
 		// because the First added view is pinned to the left, and the Last added view is pinned to the right, the contentSize is "auto-magically" handled
 
+		guard let v = curView else { return }
+		
 		vConstraint = NSLayoutConstraint(item: self.theScrollView,
 		                                 attribute: .Trailing,
 		                                 relatedBy: .Equal,
-		                                 toItem: curView!,
+		                                 toItem: v,
 		                                 attribute: .Trailing,
 		                                 multiplier: 1.0,
-		                                 constant: 12.0)
+		                                 constant: CGFloat(vSpacing))
 
 		self.theScrollView.addConstraint(vConstraint!)
 		
