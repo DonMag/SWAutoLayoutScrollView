@@ -35,12 +35,6 @@ class ViewController: UIViewController {
 		super.viewDidLoad()
 		// Do any additional setup after loading the view, typically from a nib.
 
-	
-		
-		var vcnt = self.theScrollView.subviews.count
-		
-		print("pre  subviews [\(vcnt)]")
-		
 		theScrollView.removeFromSuperview()
 		theLabel.removeFromSuperview()
 		
@@ -69,26 +63,18 @@ class ViewController: UIViewController {
 		pScrollView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(hFmt, options: [], metrics: nil, views: d))
 
 		
-//		self.addMyViews(8, vWidth: 200, vHeight: 200, vSpacing: 10, bCentered: true)
+		// add simple subviews
+		self.addMyViews(8, vWidth: 200, vHeight: 200, vSpacing: 10, bCentered: true)
 		
-		self.setOfferImages(imgURLs)
+		// or, add images as subviews
+//		self.setOfferImages(imgURLs)
 
-		
-		vcnt = self.theScrollView.subviews.count
-		
-		print("post subviews [\(vcnt)]")
 		
 	}
 
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
-	}
-
-	@IBAction func testTap(sender: AnyObject) {
-		var x = 1
-		x = 2
-		
 	}
 
 	func addMyViews(n: Int, vWidth: Int, vHeight: Int, vSpacing: Int, bCentered: Bool) {
@@ -205,16 +191,11 @@ class ViewController: UIViewController {
 		var views = [String:AnyObject]()
 
 		for (i, imgURL) in imageURLs.enumerate() {
+			
 			let imgView = UIImageView()
 			imgView.backgroundColor = UIColor.redColor()
 			imgView.translatesAutoresizingMaskIntoConstraints = false
 			imgView.contentMode = UIViewContentMode.ScaleAspectFit
-			
-//			if let imgURL = NSURL(string: imgURL) {
-//				imgView.setImageWithURL(imgURL, placeholder: UIUtils.DEFAULT_IMAGE)
-//			} else {
-//				imgView.image = UIUtils.DEFAULT_IMAGE
-//			}
 			
 			imgView.image = swImage
 			
