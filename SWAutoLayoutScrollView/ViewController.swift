@@ -64,7 +64,7 @@ class ViewController: UIViewController {
 
 		
 		// add simple subviews
-		self.addMyViews(8, vWidth: 200, vHeight: 200, vSpacing: 16, bCentered: true)
+		self.addMyViews(8, vWidth: 160, vHeight: 120, vSpacing: 16, bCentered: true)
 		
 		// or, add images as subviews
 //		self.setOfferImages(imgURLs)
@@ -77,8 +77,81 @@ class ViewController: UIViewController {
 		// Dispose of any resources that can be recreated.
 	}
 
-
-	func addMyViews(n: Int, vWidth: Int, vHeight: Int, vSpacing: Int, bCentered: Bool) {
+	
+	// Set constraints using Anchors and "activate"
+	func addMyViews(n: Int, vWidth: CGFloat, vHeight: CGFloat, vSpacing: CGFloat, bCentered: Bool) {
+		
+		var prevView: AnyObject?
+		
+		for i in 1...n {
+			
+			// load an instance of our SampleView... would have proper error handling in real-world-usage
+			guard let v = UINib(nibName: "SampleView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as? UIView else { return }
+			
+			v.translatesAutoresizingMaskIntoConstraints = false
+			
+			// the UILabel in our SampleView was assigned a Tag of 99 in IB... would have proper error handling in real-world-usage
+			guard let lbl = v.viewWithTag(99) as? UILabel else { return }
+			lbl.text = "\(i)"
+			
+			// add this view to the ScrollView
+			self.theScrollView.addSubview(v)
+			
+			var horizontalConstraint = NSLayoutConstraint()
+			var verticalConstraint = NSLayoutConstraint()
+			
+			if prevView == nil {
+				
+				horizontalConstraint = v.leadingAnchor.constraintEqualToAnchor(v.superview?.leadingAnchor, constant: vSpacing)
+				
+			} else {
+				
+				if let pv = prevView as? UIView {
+					horizontalConstraint = v.leadingAnchor.constraintEqualToAnchor(pv.trailingAnchor, constant: vSpacing)
+				}
+				
+			}
+			
+			if bCentered {
+				
+				// set the CenterY of our SampleView equal to the CenterY of the ScrollView
+				
+				verticalConstraint = v.centerYAnchor.constraintEqualToAnchor(v.superview?.centerYAnchor)
+				
+			} else {
+				
+				// set the Top of our SampleView equal to the Top of the ScrollView + Spacing
+				
+				verticalConstraint = v.topAnchor.constraintEqualToAnchor(v.superview?.topAnchor, constant: vSpacing)
+				
+			}
+			
+			NSLayoutConstraint.activateConstraints([
+				horizontalConstraint,
+				verticalConstraint,
+				v.widthAnchor.constraintEqualToConstant(vWidth),
+				v.heightAnchor.constraintEqualToConstant(vHeight)
+				])
+			
+			// assign the "current view" reference to the "previous" reference
+			prevView = v
+			
+		}
+		
+		// add a "closing" Horizontal constraint, to pin the right edge of the last view to the right-edge of the ScrollView - sort of...
+		// because the First added view is pinned to the left, and the Last added view is pinned to the right, the contentSize is "auto-magically" handled
+		
+		if let pv = prevView as? UIView {
+			NSLayoutConstraint.activateConstraints([
+				self.theScrollView.trailingAnchor.constraintEqualToAnchor(pv.trailingAnchor, constant: vSpacing)
+				])
+		}
+		
+	}
+	
+	
+	// Set constraints creating Constraints and adding them to views
+	func addMyViewsOldStyle(n: Int, vWidth: Int, vHeight: Int, vSpacing: Int, bCentered: Bool) {
 		
 		var curView: AnyObject?
 		var prevView: AnyObject?
@@ -103,27 +176,27 @@ class ViewController: UIViewController {
 			if (prevView == nil) {
 				
 				vConstraint = NSLayoutConstraint(item: v,
-				                                    attribute: .Leading,
-				                                    relatedBy: .Equal,
-				                                    toItem: self.theScrollView,
-				                                    attribute: .Leading,
-				                                    multiplier: 1.0,
-				                                    constant: CGFloat(vSpacing))
+				                                 attribute: .Leading,
+				                                 relatedBy: .Equal,
+				                                 toItem: self.theScrollView,
+				                                 attribute: .Leading,
+				                                 multiplier: 1.0,
+				                                 constant: CGFloat(vSpacing))
 				
 			} else {
 				
 				vConstraint = NSLayoutConstraint(item: v,
-				                                    attribute: .Leading,
-				                                    relatedBy: .Equal,
-				                                    toItem: prevView,
-				                                    attribute: .Trailing,
-				                                    multiplier: 1.0,
-				                                    constant: CGFloat(vSpacing))
+				                                 attribute: .Leading,
+				                                 relatedBy: .Equal,
+				                                 toItem: prevView,
+				                                 attribute: .Trailing,
+				                                 multiplier: 1.0,
+				                                 constant: CGFloat(vSpacing))
 				
 			}
 			
 			self.theScrollView.addConstraint(vConstraint!)
-
+			
 			// set the width & height
 			
 			vConstraint = NSLayoutConstraint(item: v,
@@ -135,7 +208,7 @@ class ViewController: UIViewController {
 			                                 constant: CGFloat(vWidth))
 			
 			self.theScrollView.addConstraint(vConstraint!)
-
+			
 			
 			vConstraint = NSLayoutConstraint(item: v,
 			                                 attribute: .Height,
@@ -147,12 +220,12 @@ class ViewController: UIViewController {
 			
 			self.theScrollView.addConstraint(vConstraint!)
 			
-
+			
 			if bCentered {
 				
 				
 				// now set the CenterY of our SampleView equal to the CenterY of the ScrollView
-
+				
 				vConstraint = NSLayoutConstraint(item: v,
 				                                 attribute: .CenterY,
 				                                 relatedBy: .Equal,
@@ -167,14 +240,14 @@ class ViewController: UIViewController {
 			}
 			
 			// assign the "current SampleView" reference to the "previous" reference
-		
+			
 			prevView = v
 			
 		}
 		
 		// add a "closing" Horizontal constraint, to pin the right edge of the last view to the right-edge of the ScrollView - sort of...
 		// because the First added view is pinned to the left, and the Last added view is pinned to the right, the contentSize is "auto-magically" handled
-
+		
 		guard let v = curView else { return }
 		
 		vConstraint = NSLayoutConstraint(item: self.theScrollView,
@@ -184,13 +257,14 @@ class ViewController: UIViewController {
 		                                 attribute: .Trailing,
 		                                 multiplier: 1.0,
 		                                 constant: CGFloat(vSpacing))
-
+		
 		self.theScrollView.addConstraint(vConstraint!)
 		
-
+		
 	}
 	
-	
+
+	// Set constraints using Visual Format Language
 	func addMyViewsVFL(n: Int, vWidth: Int, vHeight: Int, vSpacing: Int, bCentered: Bool) {
 		
 		var prevRef: String
@@ -304,7 +378,7 @@ class ViewController: UIViewController {
 		
 		var views = [String:AnyObject]()
 
-		for (i, imgURL) in imageURLs.enumerate() {
+		for (i, _) in imageURLs.enumerate() {
 			
 			let imgView = UIImageView()
 			imgView.backgroundColor = UIColor.redColor()
