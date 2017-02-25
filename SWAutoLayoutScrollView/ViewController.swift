@@ -8,20 +8,6 @@
 
 import UIKit
 
-extension MutableCollectionType where Self.Index == Int {
-	func shuffle() -> Self {
-		var r = self
-		let c = self.count
-		for i in 0..<(c - 1) {
-			let j = Int(arc4random_uniform(UInt32(c - i))) + i
-			if i != j {
-				swap(&r[i], &r[j])
-			}
-		}
-		return r
-	}
-}
-
 class ViewController: UIViewController {
 
 	@IBOutlet weak var theScrollView: UIScrollView!
