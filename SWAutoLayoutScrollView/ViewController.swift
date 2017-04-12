@@ -63,6 +63,16 @@ class ViewController: UIViewController {
 		// Dispose of any resources that can be recreated.
 	}
 
+	@IBAction func doTap(sender: AnyObject) {
+		print("do tap")
+	}
+	
+	func addControlsInView() -> Void {
+		
+		
+		
+		
+	}
 	
 	// Set constraints using Anchors and "activate"
 	func addMyViews(n: Int, vWidth: CGFloat, vHeight: CGFloat, vSpacing: CGFloat, bCentered: Bool) {
@@ -133,8 +143,14 @@ class ViewController: UIViewController {
 				])
 		}
 		
+		let btn = UIButton(frame: CGRect(x: 20, y: 20, width: 100, height: 100))
+		btn.setTitle("abc", forState: UIControlState())
+		btn.addTarget(self, action: #selector(ViewController.doTap(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+		self.theScrollView.addSubview(btn)
+		
 	}
 	
+
 	
 	// Set constraints creating Constraints and adding them to views
 	func addMyViewsOldStyle(n: Int, vWidth: Int, vHeight: Int, vSpacing: Int, bCentered: Bool) {
